@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}	
+	<h3>Add New User</h3>
+	<form method="post">{% csrf_token %}
+	{{ form }}
+	<button class="btn waves-effect waves-light" type="submit" name="action">Add User
+    <i class="material-icons right">send</i>
+  	</button>
+	</form>
+{% endblock %}
+
