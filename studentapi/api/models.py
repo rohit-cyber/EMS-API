@@ -2,26 +2,27 @@ from django.db import models
 
 # Create your models here.
 
-STD_CHOICES = (('One','One'),
-               ('Two','Two'),
-               ('Three','Three'),
-               ('Four','Four'),
-               ('Five','Five'),
-               ('Six','Six'),
-               ('Seven','Seven'),
-               ('Eight','Eight'),
-               ('Nine','Nine'),
-               ('Ten','Ten'),
-              )
-
-
-EVALUATION_CHOICES = (('Pass','Pass'),
-                      ('Fail','Fail'),
-                      )
-
 # Student Table
 
 class Student(models.Model):
+
+    STD_CHOICES = (('one','One'),
+               ('two','Two'),
+               ('three','Three'),
+               ('four','Four'),
+               ('five','Five'),
+               ('six','Six'),
+               ('seven','Seven'),
+               ('eight','Eight'),
+               ('nine','Nine'),
+               ('ten','Ten'),
+              )
+
+
+    EVALUATION_CHOICES = (('pass','Pass'),
+                      ('fail','Fail'),
+                      )
+
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     standard = models.CharField(choices=STD_CHOICES,max_length=50)
@@ -34,14 +35,16 @@ class Student(models.Model):
     def __str__(self):
         return self.first_name
 
-RELATION_CHOICES = (('Father','Father'),
-                    ('Mother','Mother'),
-                    ('Other','Other'),
-                    )
 
 # Guardian Table
 
 class Guardian(models.Model):
+
+    RELATION_CHOICES = (('father','Father'),
+                    ('mother','Mother'),
+                    ('other','Other'),
+                    )
+
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     student = models.ForeignKey(Student, related_name='guardians', on_delete=models.CASCADE)
