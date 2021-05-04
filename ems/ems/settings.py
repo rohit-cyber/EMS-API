@@ -40,8 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'api',
-    'myapp'
+    'myapp',
+    'django_celery_beat',
+    'django_celery_results',
 ]
+
+CELERY_RESULT_BACKEND = "django-db"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,7 +132,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+
 # DEFAULT_AUTHENTICATION_CLASSES= (
 #     'rest_framework.authentication.SessionAuthentication',
 #     'rest_framework.authentication.BasicAuthentication'
 # )
+
+# EMAIL CONFIG
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT= 587
+EMAIL_HOST_USER='rohitjune1994@gmail.com'
+EMAIL_HOST_PASSWORD='heaven7892'
+EMAIL_USE_TLS=True

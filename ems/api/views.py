@@ -10,7 +10,13 @@ from .serializers import RegisterSerializer,ProfileSerializer
 from myapp.models import Profile
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.views.decorators.csrf import csrf_protect
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.core.mail import send_mail
+from ems.settings import EMAIL_HOST_USER
+from .tasks import ems_send_mail
+
+
+from ems.celery import app
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -26,22 +32,9 @@ class ProfileAPI(APIView):
     serializer_class = ProfileSerializer
     permission_classes=[ AllowAny ]
     
+
     def get(self,request, format=None):
-
-        id = request.query_params.get('id')
-
-        if id is not None:
-            try:
-                profile = Profile.objects.get(id=id)
-                serializer = ProfileSerializer(profile)
-                return Response(serializer.data,status = status.HTTP_200_OK)
-            except:
-                return Response({'msg':"Enter a valid Id"},status=status.HTTP_406_NOT_ACCEPTABLE)
-        
-        else:
-            profile = Profile.objects.all()
-            serializer = ProfileSerializer(profile,many=True)
-            return Response(serializer.data,status = status.HTTP_200_OK)
+        get.delay(request)
 
     def post(self,request,format=None):
         serializer = ProfileSerializer(data=request.data)
@@ -106,12 +99,16 @@ class RegistrationAPI(APIView):
             serializer = RegisterSerializer(register,many=True)
             return Response(serializer.data,status = status.HTTP_200_OK)
 
-
+    
     def post(self,request,format=None):
         serializer=RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'msg':'User Registered'}, status = status.HTTP_201_CREATED)
+
+            ems_send_mail.delay({'email':request.data.get('email'),'host':EMAIL_HOST_USER})
+
+            
+            return Response({'msg':'User Registered Email sent'}, status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):
