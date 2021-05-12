@@ -105,7 +105,7 @@ class RegistrationAPI(APIView):
         if serializer.is_valid():
             serializer.save()
 
-            ems_send_mail.delay({'email':request.data.get('email'),'host':EMAIL_HOST_USER})
+            ems_send_mail.delay({'email':request.data.get('email'),'host':EMAIL_HOST_USER,'user':request.data.get('first_name')})
 
             
             return Response({'msg':'User Registered Email sent'}, status = status.HTTP_201_CREATED)
