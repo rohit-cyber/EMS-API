@@ -8,7 +8,7 @@ from .models import Student,Guardian
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','first_name','last_name','standard','evaluation','city','country','active','joined_on')
+        fields = ('id','first_name','last_name','email','standard','evaluation','city','country','active','joined_on')
 
 
 # Guardian serializer class
@@ -24,7 +24,7 @@ class StudentWithGuardianSerializer(serializers.ModelSerializer):
     guardians = GuardianSerializer(many=True)
     class Meta:
         model = Student
-        fields = ('id','first_name','last_name','guardians','standard','evaluation','city','country','active','joined_on')
+        fields = ('id','first_name','last_name','email','guardians','standard','evaluation','city','country','active','joined_on')
     
     def create(self, validated_data):
         guardians_data = validated_data.pop('guardians')

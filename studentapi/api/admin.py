@@ -5,7 +5,7 @@ from .models import Student, Guardian
 
 class StudentAdmin(admin.ModelAdmin):
     model = Student
-    list_display = ['id','first_name', 'last_name', 'standard', 'evaluation', 'city', 'country', 'active', 'joined_on']
+    list_display = ['id','first_name','email', 'last_name', 'standard', 'evaluation', 'city', 'country', 'active', 'joined_on']
 
 class GuardianAdmin(admin.ModelAdmin):
     model = Guardian

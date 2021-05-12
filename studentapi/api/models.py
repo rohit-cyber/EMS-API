@@ -25,6 +25,7 @@ class Student(models.Model):
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=230, unique=True)
     standard = models.CharField(choices=STD_CHOICES,max_length=50)
     evaluation = models.CharField(choices=EVALUATION_CHOICES,max_length=50)
     city = models.CharField(max_length=100)
