@@ -1,0 +1,32 @@
+[
+    {
+        "model": "api.Student",
+        "pk": 1,
+        "fields": {
+            "first_name": "gaurav",
+            "last_name": "Kumar",
+            "email": "gaurav@email.com",
+            "standard": "five",
+            "evaluation": "pass",
+            "city": "rourkela",
+            "country": "India",
+            "active": true,
+            "joined_on": "2020-06-12"
+                   }
+    },
+    {
+        "model": "api.Student",
+        "pk": 9,
+        "fields": {
+            "first_name": "Deepak",
+            "last_name": "Kumar",
+            "email": "deepak@email.com",
+            "standard": "six",
+            "evaluation": "pass",
+            "city": "sambalpur",
+            "country": "India",
+            "active": true,
+            "joined_on": "2020-07-12"
+                   }
+    }
+]

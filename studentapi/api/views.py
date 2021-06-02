@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .serializers import StudentWithGuardianSerializer, StudentSerializer, GuardianSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,6 +12,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,logout,login
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from studentapi.settings import EMAIL_HOST_USER
+from .tasks import student_send_mail
+from .forms import StudentForm
+from django.http import HttpResponse
+# import logging
+
+# logger = logging.getLogger(__name__)
 
 
 
@@ -31,7 +38,10 @@ class AddStudentAPI(APIView):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'msg':'student data added'})
+
+            student_send_mail.delay({'email':request.data.get('email'),'host':EMAIL_HOST_USER,'user':request.data.get('first_name')})
+
+            return Response({'msg':'student data added and mail sent'})
 
 
 #  Add Guardian API
@@ -65,6 +75,7 @@ class StudentWithGuardianAPI(APIView):
             serializer.save()
             return Response({'msg':'Data added'})
         return Response(serializer.errors)
+    
 
 
 
@@ -174,6 +185,33 @@ class LogoutView(APIView):
     def post(self,request):
         logout(request)
         return Response({'msg':'logged Out'},status=status.HTTP_200_OK)
+
+# Student Form
+
+def student_form(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Thank You Registering as a user')
+    else:
+        # logger.info("Generating new student via registration")
+        form = StudentForm
+        return render(request,'student_form.html',{'form':form})
+
+# Student send mail
+
+def particular_send_mail(request,id):
+
+    student_obj = Student.objects.get(id=id)
+    email = student_obj.email
+    user = student_obj.first_name
+
+    student_send_mail.delay({'email':email,'host':EMAIL_HOST_USER,'user':user})
+    return HttpResponse("Email sent to respective Student")
+
+
+
 
 
 

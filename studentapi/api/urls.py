@@ -2,14 +2,20 @@ from django.urls import path,include
 from . import views
 
 urlpatterns = [
+    # student form for registration
+    path('student',views.student_form),
+
+
+    # send mail url
+    path('particular_send_mail/<int:id>',views.particular_send_mail,name='particular_send_mail'),
 
     # add Student url
-    path('add_student_api/', views.AddStudentAPI.as_view()),
+    path('add_student_api/', views.AddStudentAPI.as_view(),name='add_student_api'),
 
     # add Guardian url
     path('add_guardian_api/', views.AddGuardianAPI.as_view()),
 
-    # list all Students with Guardians url
+    # list and add all Students with Guardians url
     path('student_with_guardian_api/', views.StudentWithGuardianAPI.as_view()),
 
     # Return all active Students url

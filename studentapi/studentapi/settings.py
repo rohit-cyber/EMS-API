@@ -139,3 +139,19 @@ EMAIL_PORT= 587
 EMAIL_HOST_USER='rohitjune1994@gmail.com'
 EMAIL_HOST_PASSWORD='heaven7892'
 EMAIL_USE_TLS=True
+
+# import os
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',
+#     },
+# }
