@@ -210,6 +210,11 @@ def particular_send_mail(request,id):
     student_send_mail.delay({'email':email,'host':EMAIL_HOST_USER,'user':user})
     return HttpResponse("Email sent to respective Student")
 
+#test
+
+def test(request):
+    pass
+
 
 
 

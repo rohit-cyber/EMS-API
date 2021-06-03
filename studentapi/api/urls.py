@@ -2,6 +2,10 @@ from django.urls import path,include
 from . import views
 
 urlpatterns = [
+    #test
+    path('test',views.test),
+
+
     # student form for registration
     path('student',views.student_form),
 
